@@ -223,7 +223,7 @@ with st.sidebar:
     <div class="brand">
       <div class="brand-icon">🩺</div>
       <div><div class="brand-text">Transformando IPS</div>
-           <div class="brand-sub">Análisis semestral</div></div>
+           <div class="brand-sub">Análisis </div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
@@ -266,7 +266,7 @@ if not archivo_bytes:
     <div class="welcome">
       <div class="welcome-icon">📊</div>
       <h2>Transformando IPS · Dashboard</h2>
-      <p>Sube el archivo semestral de evoluciones (.xlsx) en el panel izquierdo
+      <p>Sube el archivo de evoluciones (.xlsx) en el panel izquierdo
          para visualizar las métricas y generar el reporte.</p>
     </div>""", unsafe_allow_html=True)
     st.stop()
@@ -473,7 +473,7 @@ with tab_report:
         <div class="report-box">
           <h2>📥 Reporte de Pacientes </h2>
           <p>Genera el archivo <strong>Reporte_Pacientes_sin_desercion.xlsx</strong>
-             directamente desde el archivo semestral cargado. El proceso aplica
+             directamente desde el archivo cargado. El proceso aplica
              automáticamente las correcciones de datos y produce 5 hojas listas para usar.</p>
 
           <p style="font-size:.78rem;font-weight:600;color:{C['text2']};
