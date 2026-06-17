@@ -7,9 +7,9 @@ import plotly.io as pio
 from datetime import date
 import reporte as rpt
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # CONFIG
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 st.set_page_config(
     page_title="Transformando IPS · Dashboard",
     page_icon="🩺",
@@ -17,15 +17,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ══════════════════════════════════════════════════════════════════[...]
-# PALETA Y CONSTANTES — MODOS CLARO Y OSCURO
-# ══════════════════════════════════════════════════════════════════[...]
-# Inicializar modo oscuro por defecto
-if "dark_mode" not in st.session_state:
-    st.session_state.dark_mode = True
-
-# Paleta oscura (por defecto)
-C_DARK = dict(
+# ═══════════════════════════════════════════════════════════════════════════════
+# PALETA Y CONSTANTES
+# ═══════════════════════════════════════════════════════════════════════════════
+C = dict(
     bg     = "#0E1117", card   = "#161B22", border = "#21262D",
     text1  = "#E6EDF3", text2  = "#8B949E", text3  = "#484F58",
     blue   = "#2E86AB", teal   = "#1B998B", coral  = "#E05263",
@@ -33,20 +28,6 @@ C_DARK = dict(
     pink   = "#E07BE0", grid   = "rgba(139,148,158,0.08)",
     grid2  = "rgba(139,148,158,0.15)",
 )
-
-# Paleta clara
-C_LIGHT = dict(
-    bg     = "#FFFFFF", card   = "#F6F8FA", border = "#E1E4E8",
-    text1  = "#24292E", text2  = "#586069", text3  = "#959DA5",
-    blue   = "#0366D6", teal   = "#1B998B", coral  = "#D73A49",
-    amber  = "#F4A261", green  = "#28A745", purple = "#6F42C1",
-    pink   = "#D946EF", grid   = "rgba(209,213,219,0.15)",
-    grid2  = "rgba(209,213,219,0.25)",
-)
-
-# Seleccionar paleta según el modo
-C = C_DARK if st.session_state.dark_mode else C_LIGHT
-
 AREA_COLORS = {
     "Fisioterapia":      C["blue"],   "Fonoaudiología":    C["amber"],
     "T. Ocupacional":    C["teal"],   "Psicología":        C["purple"],
@@ -59,9 +40,9 @@ DIAS_ES  = {"Monday":"Lunes","Tuesday":"Martes","Wednesday":"Miércoles",
             "Thursday":"Jueves","Friday":"Viernes","Saturday":"Sábado","Sunday":"Domingo"}
 DIAS_ORD = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # PLOTLY TEMPLATE
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 pio.templates["centro"] = go.layout.Template(
     layout=go.Layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
@@ -78,9 +59,9 @@ pio.templates["centro"] = go.layout.Template(
 )
 pio.templates.default = "centro"
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # CSS
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -89,7 +70,7 @@ st.markdown(f"""
   --text1:{C["text1"]};--text2:{C["text2"]};--blue:{C["blue"]};--teal:{C["teal"]};
   --coral:{C["coral"]};--amber:{C["amber"]};--green:{C["green"]};
 }}
-html,body,[data-testid="stApp"]{{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);}}
+html,body,[data-testid="stApp"]{{font-family:'Inter',-apple-system,sans-serif;}}
 [data-testid="stSidebar"]{{background:var(--card);border-right:1px solid var(--border);}}
 header[data-testid="stHeader"]{{background:transparent;}}
 
@@ -166,19 +147,12 @@ header[data-testid="stHeader"]{{background:transparent;}}
 
 .footer{{text-align:center;color:var(--text2);font-size:.7rem;
   padding:1.5rem 0 .5rem;border-top:1px solid var(--border);margin-top:2rem;}}
-
-/* Dark mode toggle button */
-.theme-toggle{{display:flex;align-items:center;gap:8px;justify-content:center;
-  padding:8px 12px;border-radius:8px;border:1px solid var(--border);
-  background:var(--card);cursor:pointer;font-size:.85rem;color:var(--text2);
-  transition:all .2s;margin:12px 0;}}
-.theme-toggle:hover{{background:var(--border);color:var(--text1);}}
 </style>
 """, unsafe_allow_html=True)
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # FUNCIONES DASHBOARD
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 def normalizar_area(s):
     s = str(s).lower()
     if "fisioterap"  in s: return "Fisioterapia"
@@ -241,9 +215,9 @@ def cbox(title, subtitle=""):
     s = f'<p class="chart-subtitle">{subtitle}</p>' if subtitle else ""
     return f'<div class="chart-box"><p class="chart-title">{title}</p>{s}'
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR — compartido entre pestañas
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("""
     <div class="brand">
@@ -252,15 +226,6 @@ with st.sidebar:
            <div class="brand-sub">Análisis </div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
-
-    # Botón para cambiar tema
-    icon_tema = "🌙" if st.session_state.dark_mode else "☀️"
-    etiqueta_tema = "Modo claro" if st.session_state.dark_mode else "Modo oscuro"
-    if st.button(f"{icon_tema} {etiqueta_tema}", use_container_width=True, key="theme_toggle"):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
-
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
     archivo = st.file_uploader("📂  Archivo (.xlsx)", type=["xlsx"],
                                help="El mismo archivo que usas en el reporte")
@@ -293,9 +258,9 @@ with st.sidebar:
             {len(df):,} evoluciones · {df['DOCUMENTO'].nunique()} pacientes<br>
             {mes_opts[0]} – {mes_opts[-1]}</div>""", unsafe_allow_html=True)
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # PANTALLA DE BIENVENIDA (sin archivo)
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 if not archivo_bytes:
     st.markdown("""
     <div class="welcome">
@@ -306,14 +271,14 @@ if not archivo_bytes:
     </div>""", unsafe_allow_html=True)
     st.stop()
 
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 # PESTAÑAS
-# ══════════════════════════════════════════════════════════════════[...]
+# ═══════════════════════════════════════════════════════════════════════════════
 tab_dash, tab_report = st.tabs(["📊  Dashboard", "📥  Generar Reporte"])
 
-# ────────────────────────────────────────────────────────────────[...]
+# ───────────────────────────────────────────────────────────────────────────────
 # PESTAÑA 1 — DASHBOARD
-# ────────────────────────────────────────────────────────────────[...]
+# ───────────────────────────────────────────────────────────────────────────────
 with tab_dash:
     periodos_sel = [mes_map[m] for m in sel_meses if m in mes_map]
     df_f = df[df["MES"].isin(periodos_sel) & df["AREA"].isin(sel_areas)]
@@ -495,9 +460,9 @@ with tab_dash:
         · {date.today().strftime('%d/%m/%Y')}</div>""", unsafe_allow_html=True)
 
 
-# ────────────────────────────────────────────────────────────────[...]
+# ───────────────────────────────────────────────────────────────────────────────
 # PESTAÑA 2 — GENERAR REPORTE
-# ────────────────────────────────────────────────────────────────[...]
+# ───────────────────────────────────────────────────────────────────────────────
 with tab_report:
     st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 
