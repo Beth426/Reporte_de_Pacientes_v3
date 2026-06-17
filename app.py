@@ -11,7 +11,7 @@ import reporte as rpt
 # CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
 st.set_page_config(
-    page_title="Centro Terapéutico · Dashboard",
+    page_title="Transformando IPS · Dashboard",
     page_icon="🩺",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -227,7 +227,7 @@ with st.sidebar:
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
-    archivo = st.file_uploader("📂  Archivo semestral (.xlsx)", type=["xlsx"],
+    archivo = st.file_uploader("📂  Archivo (.xlsx)", type=["xlsx"],
                                help="El mismo archivo que usas en el reporte")
 
     archivo_bytes = archivo.read() if archivo else None
