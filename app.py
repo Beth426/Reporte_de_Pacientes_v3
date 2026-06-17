@@ -222,7 +222,7 @@ with st.sidebar:
     st.markdown("""
     <div class="brand">
       <div class="brand-icon">🩺</div>
-      <div><div class="brand-text">Centro Terapéutico</div>
+      <div><div class="brand-text">Transformando IPS</div>
            <div class="brand-sub">Análisis semestral</div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
@@ -265,7 +265,7 @@ if not archivo_bytes:
     st.markdown("""
     <div class="welcome">
       <div class="welcome-icon">📊</div>
-      <h2>Centro Terapéutico · Dashboard</h2>
+      <h2>Transformando IPS · Dashboard</h2>
       <p>Sube el archivo semestral de evoluciones (.xlsx) en el panel izquierdo
          para visualizar las métricas y generar el reporte.</p>
     </div>""", unsafe_allow_html=True)
@@ -456,7 +456,7 @@ with tab_dash:
         st.plotly_chart(fig9, use_container_width=True, config={"displayModeBar":False})
         st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown(f"""<div class="footer">Centro Terapéutico · Dashboard generado automáticamente
+    st.markdown(f"""<div class="footer">Transformando IPS · Dashboard generado automáticamente
         · {date.today().strftime('%d/%m/%Y')}</div>""", unsafe_allow_html=True)
 
 
@@ -471,7 +471,7 @@ with tab_report:
     with col_info:
         st.markdown(f"""
         <div class="report-box">
-          <h2>📥 Reporte de Pacientes sin Deserción</h2>
+          <h2>📥 Reporte de Pacientes </h2>
           <p>Genera el archivo <strong>Reporte_Pacientes_sin_desercion.xlsx</strong>
              directamente desde el archivo semestral cargado. El proceso aplica
              automáticamente las correcciones de datos y produce 5 hojas listas para usar.</p>
