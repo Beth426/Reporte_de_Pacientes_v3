@@ -21,12 +21,12 @@ st.set_page_config(
 # PALETA Y CONSTANTES
 # ═══════════════════════════════════════════════════════════════════════════════
 C = dict(
-    bg     = "#0E1117", card   = "#161B22", border = "#21262D",
-    text1  = "#E6EDF3", text2  = "#8B949E", text3  = "#484F58",
-    blue   = "#2E86AB", teal   = "#1B998B", coral  = "#E05263",
-    amber  = "#F4A261", green  = "#2DC653", purple = "#7B68EE",
-    pink   = "#E07BE0", grid   = "rgba(139,148,158,0.08)",
-    grid2  = "rgba(139,148,158,0.15)",
+    bg     = "#0C1116", card   = "#141C24", card2  = "#1A232C", border = "#26323D",
+    text1  = "#E9EFF4", text2  = "#94A4B3", text3  = "#5E6E7C",
+    blue   = "#57A8DD", teal   = "#44BDA8", coral  = "#E97A86",
+    amber  = "#ECB85A", green  = "#54C97E", purple = "#A593F0",
+    pink   = "#E48FDC", grid   = "rgba(148,164,179,0.07)",
+    grid2  = "rgba(148,164,179,0.16)",
 )
 AREA_COLORS = {
     "Fisioterapia":      C["blue"],   "Fonoaudiología":    C["amber"],
@@ -46,7 +46,7 @@ DIAS_ORD = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"
 pio.templates["centro"] = go.layout.Template(
     layout=go.Layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, sans-serif", color=C["text2"], size=12),
+        font=dict(family="'IBM Plex Sans', sans-serif", color=C["text2"], size=12),
         title=dict(font=dict(size=14, color=C["text1"])),
         xaxis=dict(gridcolor=C["grid"], zerolinecolor=C["grid2"], tickfont=dict(size=11)),
         yaxis=dict(gridcolor=C["grid"], zerolinecolor=C["grid2"], tickfont=dict(size=11)),
@@ -64,88 +64,112 @@ pio.templates.default = "centro"
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root {{
-  --bg:{C["bg"]};--card:{C["card"]};--border:{C["border"]};
-  --text1:{C["text1"]};--text2:{C["text2"]};--blue:{C["blue"]};--teal:{C["teal"]};
-  --coral:{C["coral"]};--amber:{C["amber"]};--green:{C["green"]};
+  --bg:{C["bg"]};--card:{C["card"]};--card2:{C["card2"]};--border:{C["border"]};
+  --text1:{C["text1"]};--text2:{C["text2"]};--text3:{C["text3"]};
+  --blue:{C["blue"]};--teal:{C["teal"]};--coral:{C["coral"]};
+  --amber:{C["amber"]};--green:{C["green"]};--purple:{C["purple"]};
+  --mono:'IBM Plex Mono','SFMono-Regular',monospace;
+  --shadow:0 1px 2px rgba(0,0,0,.28),0 6px 22px rgba(0,0,0,.30);
 }}
-html,body,[data-testid="stApp"]{{font-family:'Inter',-apple-system,sans-serif;}}
+html,body,[data-testid="stApp"]{{
+  font-family:'IBM Plex Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;}}
+.block-container{{padding-top:2.4rem;}}
 [data-testid="stSidebar"]{{background:var(--card);border-right:1px solid var(--border);}}
+[data-testid="stSidebar"] .block-container{{padding-top:1.4rem;}}
 header[data-testid="stHeader"]{{background:transparent;}}
+h1,h2,h3{{letter-spacing:-.01em;}}
 
 /* KPI Cards */
-.kpi-row{{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:1.5rem;}}
+.kpi-row{{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:1.6rem;}}
 @media(max-width:900px){{.kpi-row{{grid-template-columns:repeat(3,1fr);}}}}
 @media(max-width:600px){{.kpi-row{{grid-template-columns:repeat(2,1fr);}}}}
-.kpi-card{{background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:18px 20px;transition:border-color .2s,transform .15s;}}
-.kpi-card:hover{{border-color:var(--blue);transform:translateY(-1px);}}
-.kpi-icon{{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
-  justify-content:center;font-size:18px;margin-bottom:10px;}}
-.kpi-label{{font-size:.73rem;font-weight:500;color:var(--text2);text-transform:uppercase;
-  letter-spacing:.04em;margin-bottom:4px;}}
-.kpi-value{{font-size:1.6rem;font-weight:700;color:var(--text1);line-height:1.1;
-  letter-spacing:-.02em;}}
-.kpi-trend{{font-size:.73rem;font-weight:500;margin-top:6px;display:inline-flex;
-  align-items:center;gap:3px;padding:2px 8px;border-radius:6px;}}
-.kpi-trend.up{{color:#2DC653;background:rgba(45,198,83,.1);}}
-.kpi-trend.down{{color:#E05263;background:rgba(224,82,99,.1);}}
-.kpi-trend.neutral{{color:var(--text2);background:rgba(139,148,158,.1);}}
+.kpi-card{{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:18px;display:flex;flex-direction:column;gap:11px;box-shadow:var(--shadow);
+  transition:border-color .2s,transform .15s;}}
+.kpi-card:hover{{border-color:color-mix(in srgb,var(--blue) 55%,var(--border));
+  transform:translateY(-2px);}}
+.kpi-head{{display:flex;align-items:center;gap:7px;}}
+.kpi-dot{{width:7px;height:7px;border-radius:50%;flex-shrink:0;}}
+.kpi-label{{font-family:var(--mono);font-size:.66rem;font-weight:500;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.07em;}}
+.kpi-value{{font-family:var(--mono);font-size:1.92rem;font-weight:600;color:var(--text1);
+  line-height:1;letter-spacing:-.02em;}}
+.kpi-value small{{font-size:1rem;color:var(--text2);font-weight:500;}}
+.kpi-trend{{align-self:flex-start;font-family:var(--mono);font-size:.7rem;font-weight:500;
+  display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:7px;}}
+.kpi-trend.up{{color:{C["green"]};background:color-mix(in srgb,{C["green"]} 14%,transparent);}}
+.kpi-trend.down{{color:{C["coral"]};background:color-mix(in srgb,{C["coral"]} 14%,transparent);}}
+.kpi-trend.neutral{{color:var(--text2);background:color-mix(in srgb,var(--text2) 12%,transparent);}}
 
 /* Chart boxes */
-.chart-box{{background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:20px 18px 12px;margin-bottom:16px;}}
-.chart-title{{font-size:.85rem;font-weight:600;color:var(--text1);margin:0 0 2px;}}
-.chart-subtitle{{font-size:.72rem;color:var(--text2);margin:0 0 14px;}}
+.chart-box{{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:18px 18px 12px;margin-bottom:16px;box-shadow:var(--shadow);}}
+.chart-title{{font-size:.9rem;font-weight:600;color:var(--text1);margin:0 0 2px;}}
+.chart-subtitle{{font-size:.74rem;color:var(--text2);margin:0 0 14px;}}
 
 /* Reporte box */
 .report-box{{background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:2rem 2.5rem;max-width:680px;margin:0 auto;}}
-.report-box h2{{font-size:1.2rem;font-weight:600;color:var(--text1);margin:0 0 .4rem;}}
+  padding:2rem 2.4rem;max-width:680px;margin:0 auto;box-shadow:var(--shadow);}}
+.report-box h2{{font-size:1.22rem;font-weight:600;color:var(--text1);margin:0 0 .4rem;}}
 .report-box p{{font-size:.88rem;color:var(--text2);line-height:1.6;margin:0 0 1.4rem;}}
 .report-checklist{{list-style:none;padding:0;margin:0 0 1.5rem;}}
-.report-checklist li{{font-size:.85rem;color:var(--text2);padding:5px 0;
-  display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}}
+.report-checklist li{{font-size:.85rem;color:var(--text2);padding:8px 0;
+  display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border);}}
 .report-checklist li:last-child{{border-bottom:none;}}
-.report-checklist li span.dot{{width:8px;height:8px;border-radius:50%;
+.report-checklist li span.dot{{width:7px;height:7px;border-radius:50%;
   background:var(--blue);display:inline-block;flex-shrink:0;}}
 
 /* Summary chips */
 .chip-row{{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0;}}
-.chip{{background:rgba(46,134,171,.1);border:1px solid rgba(46,134,171,.2);
-  border-radius:20px;padding:4px 14px;font-size:.78rem;color:{C["blue"]};font-weight:500;}}
-.chip.green{{background:rgba(45,198,83,.1);border-color:rgba(45,198,83,.2);color:#2DC653;}}
-.chip.amber{{background:rgba(244,162,97,.1);border-color:rgba(244,162,97,.2);color:{C["amber"]};}}
+.chip{{font-family:var(--mono);background:color-mix(in srgb,{C["blue"]} 13%,transparent);
+  border:1px solid color-mix(in srgb,{C["blue"]} 26%,transparent);
+  border-radius:8px;padding:4px 12px;font-size:.74rem;color:{C["blue"]};font-weight:500;}}
+.chip.green{{background:color-mix(in srgb,{C["green"]} 13%,transparent);
+  border-color:color-mix(in srgb,{C["green"]} 26%,transparent);color:{C["green"]};}}
+.chip.amber{{background:color-mix(in srgb,{C["amber"]} 13%,transparent);
+  border-color:color-mix(in srgb,{C["amber"]} 26%,transparent);color:{C["amber"]};}}
 
 /* Multiselect pills */
 [data-testid="stMultiSelect"] span[data-baseweb="tag"]{{
-  background:rgba(46,134,171,.15);border:1px solid rgba(46,134,171,.3);
-  border-radius:6px;color:var(--blue);}}
+  background:color-mix(in srgb,{C["blue"]} 16%,transparent);
+  border:1px solid color-mix(in srgb,{C["blue"]} 30%,transparent);
+  border-radius:7px;color:var(--blue);}}
 [data-testid="stFileUploader"]>div:first-child{{
-  border:1px dashed var(--border);border-radius:10px;background:rgba(46,134,171,.04);}}
+  border:1px dashed var(--border);border-radius:11px;
+  background:color-mix(in srgb,{C["blue"]} 5%,transparent);}}
 [data-testid="stFileUploader"]>div:first-child:hover{{
-  border-color:var(--blue);background:rgba(46,134,171,.08);}}
+  border-color:var(--blue);background:color-mix(in srgb,{C["blue"]} 9%,transparent);}}
 [data-testid="stMetric"]{{display:none;}}
+
+/* Tabs */
+button[data-baseweb="tab"]{{font-weight:500;}}
+[data-baseweb="tab-highlight"]{{background:var(--blue);}}
+
+/* Buttons */
+[data-testid="stBaseButton-primary"]{{
+  background:var(--blue);border:none;border-radius:9px;font-weight:600;}}
 
 /* Brand sidebar */
 .brand{{display:flex;align-items:center;gap:12px;padding:6px 0 4px;}}
-.brand-icon{{width:40px;height:40px;border-radius:10px;
-  background:linear-gradient(135deg,{C["blue"]},{C["teal"]});
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}}
+.brand-icon{{width:42px;height:42px;border-radius:12px;
+  background:linear-gradient(140deg,{C["blue"]},{C["teal"]});
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+  box-shadow:var(--shadow);}}
 .brand-text{{font-size:1rem;font-weight:600;color:var(--text1);line-height:1.2;}}
-.brand-sub{{font-size:.7rem;color:var(--text2);}}
+.brand-sub{{font-size:.7rem;color:var(--text2);letter-spacing:.02em;}}
 
 /* Welcome */
 .welcome{{display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:4rem 2rem;text-align:center;}}
-.welcome-icon{{width:72px;height:72px;border-radius:16px;
-  background:rgba(46,134,171,.1);display:flex;align-items:center;
-  justify-content:center;font-size:32px;margin-bottom:1.2rem;}}
-.welcome h2{{font-size:1.3rem;font-weight:600;color:var(--text1);margin:0 0 .5rem;}}
-.welcome p{{font-size:.9rem;color:var(--text2);max-width:420px;line-height:1.6;}}
+  justify-content:center;padding:4.5rem 2rem;text-align:center;}}
+.welcome-icon{{width:74px;height:74px;border-radius:18px;
+  background:color-mix(in srgb,{C["blue"]} 12%,transparent);display:flex;align-items:center;
+  justify-content:center;font-size:32px;margin-bottom:1.3rem;}}
+.welcome h2{{font-size:1.35rem;font-weight:600;color:var(--text1);margin:0 0 .5rem;}}
+.welcome p{{font-size:.9rem;color:var(--text2);max-width:430px;line-height:1.6;}}
 
-.footer{{text-align:center;color:var(--text2);font-size:.7rem;
+.footer{{text-align:center;color:var(--text3);font-size:.7rem;font-family:var(--mono);
   padding:1.5rem 0 .5rem;border-top:1px solid var(--border);margin-top:2rem;}}
 </style>
 """, unsafe_allow_html=True)
@@ -201,14 +225,14 @@ def calc_trend(df, meses_sorted):
             trends[k] = (f"{abs(pct):.0f}% vs {mes_label(prev)}", d)
     return trends
 
-def render_kpi(icon, icon_bg, label, value, trend_text="", trend_dir="neutral"):
+def render_kpi(dot_color, label, value, trend_text="", trend_dir="neutral"):
     trend_html = ""
     if trend_text:
         arrow = "↑" if trend_dir=="up" else ("↓" if trend_dir=="down" else "→")
         trend_html = f'<div class="kpi-trend {trend_dir}">{arrow} {trend_text}</div>'
     return f"""<div class="kpi-card">
-        <div class="kpi-icon" style="background:{icon_bg}">{icon}</div>
-        <div class="kpi-label">{label}</div>
+        <div class="kpi-head"><span class="kpi-dot" style="background:{dot_color}"></span>
+          <span class="kpi-label">{label}</span></div>
         <div class="kpi-value">{value}</div>{trend_html}</div>"""
 
 def cbox(title, subtitle=""):
@@ -223,7 +247,7 @@ with st.sidebar:
     <div class="brand">
       <div class="brand-icon">🩺</div>
       <div><div class="brand-text">Transformando IPS</div>
-           <div class="brand-sub">Análisis </div></div>
+           <div class="brand-sub">Análisis clínico</div></div>
     </div>""", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
@@ -295,11 +319,11 @@ with tab_dash:
 
     # ── KPIs ──
     kpi_html = '<div class="kpi-row">'
-    kpi_html += render_kpi("📋","rgba(46,134,171,.12)","Evoluciones",   f"{len(df_f):,}",        evol_t[0],evol_t[1])
-    kpi_html += render_kpi("👥","rgba(27,153,139,.12)","Pacientes únicos",f"{df_f['DOCUMENTO'].nunique():,}", pac_t[0],pac_t[1])
-    kpi_html += render_kpi("🧑‍⚕️","rgba(123,104,238,.12)","Profesionales", f"{df_f['PROFESIONAL-ATIENDE'].nunique()}", prof_t[0],prof_t[1])
-    kpi_html += render_kpi("🏥","rgba(244,162,97,.12)", "Áreas activas", f"{df_f['AREA'].nunique()}")
-    kpi_html += render_kpi("📅","rgba(45,198,83,.12)",  "Período",       f"{len(meses_sorted)} meses")
+    kpi_html += render_kpi(C["blue"],  "Evoluciones",      f"{len(df_f):,}",                          evol_t[0],evol_t[1])
+    kpi_html += render_kpi(C["teal"],  "Pacientes únicos", f"{df_f['DOCUMENTO'].nunique():,}",        pac_t[0],pac_t[1])
+    kpi_html += render_kpi(C["purple"],"Profesionales",    f"{df_f['PROFESIONAL-ATIENDE'].nunique()}",prof_t[0],prof_t[1])
+    kpi_html += render_kpi(C["amber"], "Áreas activas",    f"{df_f['AREA'].nunique()}")
+    kpi_html += render_kpi(C["green"], "Período",          f"{len(meses_sorted)} <small>meses</small>")
     kpi_html += '</div>'
     st.markdown(kpi_html, unsafe_allow_html=True)
 
@@ -313,7 +337,7 @@ with tab_dash:
         fig1.add_scatter(x=evol_mes["Mes"], y=evol_mes["Evoluciones"], mode="lines+markers",
                          line=dict(color=C["blue"],width=3,shape="spline"),
                          marker=dict(size=9,color=C["blue"],line=dict(width=2,color=C["card"])),
-                         fill="tozeroy", fillcolor="rgba(46,134,171,.08)",
+                         fill="tozeroy", fillcolor="rgba(87,168,221,.10)",
                          hovertemplate="<b>%{x}</b><br>%{y:,} evoluciones<extra></extra>")
         fig1.update_layout(height=300,xaxis_title="",yaxis_title="")
         st.plotly_chart(fig1, use_container_width=True, config={"displayModeBar":False})
@@ -361,7 +385,7 @@ with tab_dash:
         mx = top_prof["Evoluciones"].max()
         fig4 = go.Figure()
         fig4.add_bar(y=top_prof["PROFESIONAL-ATIENDE"],x=top_prof["Evoluciones"],orientation="h",
-                     marker=dict(color=[f"rgba(46,134,171,{.35+.65*(v/mx)})" for v in top_prof["Evoluciones"]],cornerradius=4),
+                     marker=dict(color=[f"rgba(87,168,221,{.35+.65*(v/mx)})" for v in top_prof["Evoluciones"]],cornerradius=4),
                      text=top_prof["Evoluciones"].apply(lambda x:f"{x:,}"),textposition="outside",
                      textfont=dict(size=11,color=C["text2"]),
                      hovertemplate="<b>%{y}</b><br>%{x:,} evoluciones<extra></extra>")
@@ -376,7 +400,7 @@ with tab_dash:
         mx5 = dia_c["Evoluciones"].max()
         fig5 = go.Figure()
         fig5.add_bar(x=dia_c["Día"],y=dia_c["Evoluciones"],
-                     marker=dict(color=[C["amber"] if v==mx5 else "rgba(244,162,97,.45)" for v in dia_c["Evoluciones"]],cornerradius=4),
+                     marker=dict(color=[C["amber"] if v==mx5 else "rgba(236,184,90,.45)" for v in dia_c["Evoluciones"]],cornerradius=4),
                      text=dia_c["Evoluciones"].apply(lambda x:f"{x:,}"),textposition="outside",
                      textfont=dict(size=11,color=C["text2"]),
                      hovertemplate="<b>%{x}</b><br>%{y:,} evoluciones<extra></extra>")
@@ -409,7 +433,7 @@ with tab_dash:
         mx7 = top_eps["Evoluciones"].max()
         fig7 = go.Figure()
         fig7.add_bar(y=top_eps["Aseguradora"],x=top_eps["Evoluciones"],orientation="h",
-                     marker=dict(color=[f"rgba(123,104,238,{.3+.7*(v/mx7)})" for v in top_eps["Evoluciones"]],cornerradius=4),
+                     marker=dict(color=[f"rgba(165,147,240,{.3+.7*(v/mx7)})" for v in top_eps["Evoluciones"]],cornerradius=4),
                      text=top_eps["Evoluciones"].apply(lambda x:f"{x:,}"),textposition="outside",
                      textfont=dict(size=11,color=C["text2"]),
                      hovertemplate="<b>%{y}</b><br>%{x:,} evoluciones<extra></extra>")
@@ -448,7 +472,7 @@ with tab_dash:
               int(((intens>=50)&(intens<=100)).sum()), int((intens>100).sum())]
         fig9 = go.Figure()
         fig9.add_bar(x=ri,y=vi,
-                     marker=dict(color=[C["teal"],"rgba(27,153,139,.7)","rgba(27,153,139,.45)","rgba(27,153,139,.25)"],cornerradius=4),
+                     marker=dict(color=[C["teal"],"rgba(68,189,168,.7)","rgba(68,189,168,.45)","rgba(68,189,168,.25)"],cornerradius=4),
                      text=[str(v) for v in vi],textposition="outside",
                      textfont=dict(size=12,color=C["text2"]),
                      hovertemplate="<b>%{x}</b><br>%{y} pacientes<extra></extra>")
